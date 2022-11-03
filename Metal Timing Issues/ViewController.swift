@@ -22,7 +22,6 @@ class ViewController: UIViewController {
         mtkView.device = MTLCreateSystemDefaultDevice()!
         mtkView.delegate = self
         mtkView.preferredFramesPerSecond = 60
-        (mtkView.layer as! CAMetalLayer).maximumDrawableCount = 2
         
         commandQueue = mtkView.device!.makeCommandQueue()
     }
@@ -35,8 +34,9 @@ extension ViewController: MTKViewDelegate {
     func draw(in view: MTKView) {
         guard let commandBuffer = commandQueue.makeCommandBuffer(),
               let drawable = view.currentDrawable else { return }
-        commandBuffer.present(drawable)
-//        commandBuffer.present(drawable, afterMinimumDuration: 1.0/60.0)
+
+        commandBuffer.present(drawable, afterMinimumDuration: 1.0/60.0)
+        
         commandBuffer.commit()
     }
 }
